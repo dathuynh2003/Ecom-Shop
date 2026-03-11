@@ -1,166 +1,706 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "Ecom Web API",
-        "description": "API documentation for Ecom Web API",
-        "version": "v1"
-    },
-    "paths": {
-        "/api/v1/Authentications/login": {
-            "post": {
-                "tags": [
-                    "Authentications"
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
-                            }
-                        },
-                        "text/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
-                            }
-                        },
-                        "application/*+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TokenResponseApiResponse"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TokenResponseApiResponse"
-                                }
-                            },
-                            "text/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TokenResponseApiResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            },
-                            "text/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    }
-                }
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ecom Web API",
+    "description": "API documentation for Ecom Web API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/v1/Authentications/login": {
+      "post": {
+        "tags": [
+          "Authentications"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
             }
-        }
-    },
-    "components": {
-        "schemas": {
-            "LoginRequest": {
-                "type": "object",
-                "properties": {
-                    "account": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "password": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": false
-            },
-            "ProblemDetails": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "title": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "status": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "detail": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "instance": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": {}
-            },
-            "TokenResponse": {
-                "type": "object",
-                "properties": {
-                    "accessToken": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": false
-            },
-            "TokenResponseApiResponse": {
-                "type": "object",
-                "properties": {
-                    "success": {
-                        "type": "boolean"
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "data": {
-                        "$ref": "#/components/schemas/TokenResponse"
-                    }
-                },
-                "additionalProperties": false
-            }
+          }
         },
-        "securitySchemes": {
-            "Bearer": {
-                "type": "http",
-                "description": "JWT Authorization header using the Bearer scheme.",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
         }
+      }
     },
-    "security": [
-        {
-            "Bearer": []
+    "/api/v1/Authentications/refresh-token": {
+      "post": {
+        "tags": [
+          "Authentications"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
         }
-    ]
+      }
+    },
+    "/api/v1/Authentications/logout": {
+      "post": {
+        "tags": [
+          "Authentications"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Users/me": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfoResponseApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfoResponseApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserInfoResponseApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Address": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "addressText": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "isDefault": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Brand": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "logoUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Cart": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "readOnly": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "sessionID": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CartItem": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "cartId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "cart": {
+            "$ref": "#/components/schemas/Cart"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserInfoResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Address"
+            },
+            "nullable": true
+          },
+          "cartID": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetUserInfoResponseApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetUserInfoResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "brandId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/Brand"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImage"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductImage": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TokenRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "nullable": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TokenResponseApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TokenResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "dob": {
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "avatarUrl": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Address"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "cartID": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "cart": {
+            "$ref": "#/components/schemas/Cart"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRole": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

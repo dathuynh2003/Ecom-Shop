@@ -1,13 +1,11 @@
+// src/features/auth/components/LoginForm.tsx
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import { setTokens } from "../slices/authSlice";
-import {
-    AuthenticationsService,
-    type LoginRequest,
-} from "../../../api/client";
+import { loginThunk } from "../thunks";
+import type { LoginRequest } from "../../../api/client";
 
 const schema = z.object({
     account: z.string().min(1, "Account is required"),
@@ -30,33 +28,23 @@ export function LoginForm() {
 
     const onSubmit = async (values: FormValues) => {
         setApiError(null);
-        try {
-            const body: LoginRequest = {
-                account: values.account,
-                password: values.password,
-            };
 
-            const res = await AuthenticationsService.postApiV1AuthenticationsLogin(
-                body
-            );
+        const body: LoginRequest = {
+            account: values.account,
+            password: values.password,
+        };
 
-            if (!res.success || !res.data || !res.data.accessToken) {
-                setApiError(res.message ?? "Login failed");
-                return;
-            }
+        const resultAction = await dispatch(loginThunk(body));
 
-            const accessToken = res.data.accessToken;
-            const refreshToken = res.data.refreshToken ?? "";
-
-            localStorage.setItem("access_token", accessToken);
-            localStorage.setItem("refresh_token", refreshToken);
-
-            dispatch(setTokens({ accessToken, refreshToken }));
-            // TODO: điều hướng sang trang home/dashboard sau này
-        } catch (e: any) {
-            setApiError("Login error");
-            console.error(e);
+        if (loginThunk.rejected.match(resultAction)) {
+            // payload trong rejectWithValue("...") là string
+            const msg = (resultAction.payload as string) ?? "Login failed";
+            setApiError(msg);
+            return;
         }
+
+        // loginThunk.fulfilled: token đã lưu + /Users/me đã fetch + setUser rồi
+        // Điều hướng thực tế được xử lý ở LoginPage (useEffect), nên ở đây không cần navigate
     };
 
     return (

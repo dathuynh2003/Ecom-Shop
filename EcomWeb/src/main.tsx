@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { store } from "./app/store";
 import App from "./App";
 import "./index.css";
-import "./api/client/openapi-config";
+import "./api/openapi-config";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

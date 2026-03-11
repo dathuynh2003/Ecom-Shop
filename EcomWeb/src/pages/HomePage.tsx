@@ -1,4 +1,3 @@
-import { MainLayout } from "../components/layout/MainLayout";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 
@@ -32,12 +31,12 @@ function formatCurrency(n: number) {
 
 export default function HomePage() {
     return (
-        <MainLayout>
+        <>
             <section className="mb-6">
                 <h1 className="mb-2 text-2xl font-semibold text-slate-900">
                     Sản phẩm nổi bật
                 </h1>
-                <p className="text-sm text-slate-900">
+                <p className="text-sm text-slate-600">
                     Khách vãng lai và khách hàng đều có thể xem danh sách sản phẩm.
                 </p>
             </section>
@@ -75,6 +74,6 @@ export default function HomePage() {
                     </article>
                 ))}
             </section>
-        </MainLayout>
+        </>
     );
 }

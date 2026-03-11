@@ -10,9 +10,9 @@ interface MainLayoutProps {
 
 export function MainLayout({ children, withSidebar }: MainLayoutProps) {
     return (
-        <div className="flex min-h-screen flex-col bg-white text-slate-50">
+        <div className="flex min-h-screen flex-col bg-white text-slate-900">
             <Header />
-            <div className="mx-auto flex w-full max-w-6xl flex-1 px-4 py-4 gap-4">
+            <div className="mx-auto flex w-full max-w-6xl flex-1 gap-4 px-4 py-4">
                 {withSidebar && <Sidebar />}
                 <main className="flex-1">{children}</main>
             </div>

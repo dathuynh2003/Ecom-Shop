@@ -1,10 +1,23 @@
+// src/components/layout/Header.tsx
 import { Menu, ShoppingCart, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/nontext-logo.png";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { logoutThunk } from "../../features/auth/thunks";
 
 export function Header() {
     const [openMobile, setOpenMobile] = useState(false);
+    const { isAuthenticated, user } = useAppSelector((s) => s.auth);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await dispatch(logoutThunk());
+        navigate("/login", { replace: true });
+    };
+
+    const displayName = user?.fullName || user?.email || "Tài khoản";
 
     return (
         <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
@@ -35,6 +48,7 @@ export function Header() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
+                    {/* Cart */}
                     <Link
                         to="/cart"
                         className="relative inline-flex items-center justify-center rounded-full border border-slate-300 p-2 hover:border-brand-orange"
@@ -44,14 +58,51 @@ export function Header() {
                             0
                         </span>
                     </Link>
-                    <Link
-                        to="/login"
-                        className="hidden items-center gap-1 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-brand-orange md:inline-flex"
-                    >
-                        <User className="h-4 w-4" />
-                        Đăng nhập
-                    </Link>
 
+                    {/* Desktop: nếu chưa login thì nút Đăng nhập, nếu login thì menu user + Logout */}
+                    {!isAuthenticated || !user ? (
+                        <Link
+                            to="/login"
+                            className="hidden items-center gap-1 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-brand-orange md:inline-flex"
+                        >
+                            <User className="h-4 w-4" />
+                            Đăng nhập
+                        </Link>
+                    ) : (
+                        <div className="hidden md:flex items-center gap-2">
+                            <button
+                                onClick={() => {
+                                    if (user.roleName === "Admin") {
+                                        navigate("/admin");
+                                    } else {
+                                        navigate("/account");
+                                    }
+                                }}
+                                className="inline-flex items-center gap-1 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-brand-orange"
+                            >
+                                {user.avatarUrl ? (
+                                    <img
+                                        src={user.avatarUrl}
+                                        alt={displayName}
+                                        className="h-5 w-5 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <User className="h-4 w-4" />
+                                )}
+                                <span className="max-w-[120px] truncate">
+                                    {displayName}
+                                </span>
+                            </button>
+                            <button
+                                onClick={handleLogout}
+                                className="text-xs text-slate-600 hover:text-red-500"
+                            >
+                                Đăng xuất
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Mobile menu button */}
                     <button
                         className="inline-flex items-center justify-center rounded-md border border-slate-300 p-2 text-slate-700 hover:border-brand-orange md:hidden"
                         onClick={() => setOpenMobile((v) => !v)}
@@ -61,29 +112,87 @@ export function Header() {
                 </div>
             </div>
 
+            {/* Mobile nav */}
             {openMobile && (
                 <nav className="border-t border-slate-200 bg-white px-4 py-3 text-sm md:hidden">
                     <div className="flex flex-col gap-2">
-                        <Link to="/products" className="text-slate-700 hover:text-brand-brown">
+                        <Link
+                            to="/products"
+                            className="text-slate-700 hover:text-brand-brown"
+                            onClick={() => setOpenMobile(false)}
+                        >
                             Sản phẩm
                         </Link>
-                        <Link to="/brands" className="text-slate-700 hover:text-brand-brown">
+                        <Link
+                            to="/brands"
+                            className="text-slate-700 hover:text-brand-brown"
+                            onClick={() => setOpenMobile(false)}
+                        >
                             Thương hiệu
                         </Link>
-                        <Link to="/deals" className="text-slate-700 hover:text-brand-brown">
+                        <Link
+                            to="/deals"
+                            className="text-slate-700 hover:text-brand-brown"
+                            onClick={() => setOpenMobile(false)}
+                        >
                             Khuyến mãi
                         </Link>
-                        <Link
-                            to="/login"
-                            className="mt-2 inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-brand-orange"
-                        >
-                            <User className="mr-1 h-4 w-4" />
-                            Đăng nhập
-                        </Link>
+
+                        {/* Mobile: login / user + logout */}
+                        {!isAuthenticated || !user ? (
+                            <Link
+                                to="/login"
+                                className="mt-2 inline-flex items-center justify-center rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-brand-orange"
+                                onClick={() => setOpenMobile(false)}
+                            >
+                                <User className="mr-1 h-4 w-4" />
+                                Đăng nhập
+                            </Link>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        setOpenMobile(false);
+                                        if (user.roleName === "Admin") {
+                                            navigate("/admin");
+                                        } else {
+                                            navigate("/account");
+                                        }
+                                    }}
+                                    className="mt-2 inline-flex items-center justify-between rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-brand-orange"
+                                >
+                                    <span className="inline-flex items-center gap-1">
+                                        {user.avatarUrl ? (
+                                            <img
+                                                src={user.avatarUrl}
+                                                alt={displayName}
+                                                className="h-4 w-4 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <User className="h-4 w-4" />
+                                        )}
+                                        <span className="max-w-[140px] truncate">
+                                            {displayName}
+                                        </span>
+                                    </span>
+                                    <span className="text-[10px] text-slate-500">
+                                        {user.roleName}
+                                    </span>
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setOpenMobile(false);
+                                        handleLogout();
+                                    }}
+                                    className="mt-1 text-left text-xs text-red-500"
+                                >
+                                    Đăng xuất
+                                </button>
+                            </>
+                        )}
                     </div>
                 </nav>
             )}
         </header>
     );
 }
-

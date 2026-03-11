@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:api": "openapi --input ./openapi.json --output src/api/client --client axios"
+    "generate:api": "openapi --input ./openapi.json --output src/api/client --client axios --request ./src/api/client/custom-request.txt"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
