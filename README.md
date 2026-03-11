@@ -45,7 +45,9 @@ EcomWeb/
         core/
         models/
         services/
-        openapi-config.ts  # config OpenAPI.BASE, OpenAPI.TOKEN
+        custom-request.txt     # custom implementation cho core/request.ts, dùng axiosInstance + interceptor 401/refresh-token
+      axiosInstance.ts         # config Interceptor response
+      openapi-config.ts        # config OpenAPI.BASE, OpenAPI.TOKEN
     assets/
       logo.png
       nontext-logo.png
@@ -58,16 +60,19 @@ EcomWeb/
       ui/
         button.tsx    # Button với variant: primary, outline, success, danger
         badge.tsx     # Badge cho brand/category
+      ProtectedRoute.tsx
     features/
       auth/
         components/
           LoginForm.tsx
-        pages/
-          LoginPage.tsx
         slices/
           authSlice.ts # lưu accessToken/refreshToken, isAuthenticated
+        thunks.ts
+      ...
     pages/
       HomePage.tsx     # Trang home show sản phẩm (mock) cho guest & customer
+      LoginPage.tsx
+      ...
     main.tsx
     App.tsx
     index.css          # Tailwind import + @theme màu brand
@@ -82,7 +87,7 @@ Script trong package.json:
 ```json
 ...
 "scripts": {
-  "generate:api": "openapi --input ./openapi.json --output src/api/client --client axios"
+  "generate:api": "openapi --input ./openapi.json --output src/api/client --client axios --request ./src/api/client/custom-request.txt"
 }
 ...
 ```
@@ -129,7 +134,19 @@ export default defineConfig({
   },
 });
 ```
-## 5. Cách chạy project
+## 5. Auth & refresh token
+
+- accessToken/refreshToken lưu trong localStorage, được quản lý bởi `authSlice` (setTokens, clearTokens).
+- `OpenAPI.TOKEN` luôn đọc accessToken mới nhất mỗi request.
+- `axiosInstance.ts`:
+  - Interceptor response bắt 401, tự gọi `POST /api/v1/Authentications/refresh-token`, lưu token mới, retry request gốc.
+  - Nếu refresh thất bại, clear token + Redux, coi như logout.
+- `features/auth/thunks.ts`:
+  - `loginThunk`: gọi `/login` → setTokens → gọi `/Users/me` → lưu user.
+  - `fetchMeThunk`: dùng khi reload app, đọc token từ localStorage và sync lại user.
+  - `logoutThunk`: gọi `/logout` (optional) + clearTokens.
+
+## 6. Cách chạy project
 ```bash
 # cài dependency
 npm install
