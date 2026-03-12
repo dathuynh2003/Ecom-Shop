@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { X } from "lucide-react";
 import clsx from "clsx";
 import { mockCategories, mockBrands } from "./Header";
@@ -9,9 +9,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onClose }: SidebarProps) {
-    const [searchParams] = useSearchParams();
-    const activeCategory = searchParams.get("category");
-    const activeBrand = searchParams.get("brand");
+    const { categorySlug, brandSlug } = useParams<{ categorySlug?: string; brandSlug?: string }>();
 
     return (
         <>
@@ -57,7 +55,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                                     onClick={onClose}
                                     className={clsx(
                                         "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-                                        !activeCategory
+                                        !categorySlug
                                             ? "bg-brand-orange/10 font-medium text-brand-brown"
                                             : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                                     )}
@@ -68,11 +66,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                             {mockCategories.map((c) => (
                                 <li key={c.id}>
                                     <Link
-                                        to={`/products?category=${c.id}`}
+                                        to={`/${c.slug}`}
                                         onClick={onClose}
                                         className={clsx(
                                             "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-                                            activeCategory === String(c.id)
+                                            categorySlug === c.slug
                                                 ? "bg-brand-orange/10 font-medium text-brand-brown"
                                                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                                         )}
@@ -92,18 +90,24 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                         <ul className="space-y-0.5">
                             {mockBrands.map((b) => (
                                 <li key={b.id}>
-                                    <Link
-                                        to={`/products?brand=${b.id}`}
-                                        onClick={onClose}
-                                        className={clsx(
-                                            "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-                                            activeBrand === String(b.id)
-                                                ? "bg-brand-orange/10 font-medium text-brand-brown"
-                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                                        )}
-                                    >
-                                        {b.name}
-                                    </Link>
+                                    {categorySlug ? (
+                                        <Link
+                                            to={`/${categorySlug}/${b.slug}`}
+                                            onClick={onClose}
+                                            className={clsx(
+                                                "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
+                                                brandSlug === b.slug
+                                                    ? "bg-brand-orange/10 font-medium text-brand-brown"
+                                                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                            )}
+                                        >
+                                            {b.name}
+                                        </Link>
+                                    ) : (
+                                        <span className="flex items-center rounded-lg px-3 py-2 text-sm text-slate-400 cursor-default">
+                                            {b.name}
+                                        </span>
+                                    )}
                                 </li>
                             ))}
                         </ul>

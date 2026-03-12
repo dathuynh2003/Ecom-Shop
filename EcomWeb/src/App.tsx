@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect } from "react";
 import { fetchMeThunk } from "./features/auth/thunks";
@@ -33,10 +34,26 @@ function App() {
         }
       />
       <Route
-        path="/products"
+        path="/:categorySlug"
         element={
           <MainLayout withSidebar>
             <HomePage />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/:categorySlug/:brandSlug"
+        element={
+          <MainLayout withSidebar>
+            <HomePage />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/:categorySlug/:brandSlug/:productSlug"
+        element={
+          <MainLayout>
+            <ProductDetailsPage />
           </MainLayout>
         }
       />

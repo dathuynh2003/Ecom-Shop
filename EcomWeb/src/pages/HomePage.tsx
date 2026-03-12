@@ -1,8 +1,9 @@
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+import { Link } from "react-router-dom";
 import type { Product } from "../api/client";
 
-const mockProducts: (Product & { categoryName: string; brandName: string; primaryImage: string })[] = [
+const mockProducts: (Product & { categoryName: string; brandName: string; categorySlug: string; brandSlug: string; slug: string; primaryImage: string })[] = [
     {
         id: 1,
         name: "Samsung Galaxy S24 Ultra 256GB",
@@ -13,6 +14,9 @@ const mockProducts: (Product & { categoryName: string; brandName: string; primar
         brandId: 1,
         categoryName: "Điện thoại",
         brandName: "Samsung",
+        categorySlug: "dien-thoai",
+        brandSlug: "samsung",
+        slug: "galaxy-s24-ultra-256gb",
         primaryImage:
             "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/s/ss-s24-ultra-xam-1.png",
     },
@@ -26,6 +30,9 @@ const mockProducts: (Product & { categoryName: string; brandName: string; primar
         brandId: 2,
         categoryName: "Laptop",
         brandName: "Apple",
+        categorySlug: "laptop",
+        brandSlug: "apple",
+        slug: "macbook-air-m3-13-inch",
         primaryImage:
             "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook-air-m3-13-midnight-1_3.png",
     },
@@ -39,6 +46,9 @@ const mockProducts: (Product & { categoryName: string; brandName: string; primar
         brandId: 3,
         categoryName: "Đồng hồ",
         brandName: "Huawei",
+        categorySlug: "dong-ho",
+        brandSlug: "huawei",
+        slug: "huawei-watch-gt-5-pro",
         primaryImage:
             "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/d/o/dong-ho-huawei-watch-gt5-pro_1_.png",
     },
@@ -52,6 +62,9 @@ const mockProducts: (Product & { categoryName: string; brandName: string; primar
         brandId: 4,
         categoryName: "Điện thoại",
         brandName: "Oppo",
+        categorySlug: "dien-thoai",
+        brandSlug: "oppo",
+        slug: "oppo-find-x7-ultra",
         primaryImage:
             "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/o/p/oppo-find-x7-ultra.png",
     },
@@ -65,6 +78,9 @@ const mockProducts: (Product & { categoryName: string; brandName: string; primar
         brandId: 5,
         categoryName: "Điện thoại",
         brandName: "Xiaomi",
+        categorySlug: "dien-thoai",
+        brandSlug: "xiaomi",
+        slug: "xiaomi-14-ultra-5g",
         primaryImage:
             "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-14-ultra-den.png",
     },
@@ -78,6 +94,9 @@ const mockProducts: (Product & { categoryName: string; brandName: string; primar
         brandId: 2,
         categoryName: "Tai nghe",
         brandName: "Apple",
+        categorySlug: "tai-nghe",
+        brandSlug: "apple",
+        slug: "airpods-pro-2-usb-c",
         primaryImage:
             "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/i/airpods-pro-2-usb-c_1__1.png",
     },
@@ -108,21 +127,21 @@ export default function HomePage() {
                         key={p.id}
                         className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow"
                     >
-                        <div className="aspect-square overflow-hidden bg-slate-50 p-4">
+                        <Link to={`/${p.categorySlug}/${p.brandSlug}/${p.slug}`} className="aspect-square overflow-hidden bg-slate-50 p-4">
                             <img
                                 src={p.primaryImage}
                                 alt={p.name ?? ""}
                                 className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
                             />
-                        </div>
+                        </Link>
                         <div className="flex flex-1 flex-col gap-2 p-4">
                             <div className="flex items-center gap-2">
                                 <Badge variant="brand">{p.brandName}</Badge>
                                 <Badge variant="category">{p.categoryName}</Badge>
                             </div>
-                            <h2 className="line-clamp-2 text-sm font-medium text-slate-900">
+                            <Link to={`/${p.categorySlug}/${p.brandSlug}/${p.slug}`} className="line-clamp-2 text-sm font-medium text-slate-900 hover:text-brand-brown transition-colors">
                                 {p.name}
-                            </h2>
+                            </Link>
                             <p className="line-clamp-1 text-xs text-slate-500">
                                 {p.description}
                             </p>

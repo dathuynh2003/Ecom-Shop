@@ -10,27 +10,30 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 // import clsx from "clsx";
-import logo from "../../assets/nonbg-logo.png";
+import logo from "../../assets/nonbg-logo2.png";
 import defaultAvatar from "../../assets/default-avatar.png";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logoutThunk } from "../../features/auth/thunks";
 import type { Category, Brand } from "../../api/client";
 
 // ── Mock data (sẽ thay bằng API thật sau) ──────────────────────────
-export const mockCategories: Category[] = [
-    { id: 1, name: "Điện thoại", description: "Smartphone các loại" },
-    { id: 2, name: "Laptop", description: "Laptop văn phòng & gaming" },
-    { id: 3, name: "Đồng hồ", description: "Đồng hồ thông minh & cổ điển" },
-    { id: 4, name: "Tai nghe", description: "Tai nghe Bluetooth & có dây" },
-    { id: 5, name: "Phụ kiện", description: "Ốp lưng, sạc, cáp, ..." },
+export type MockCategory = Category & { slug: string };
+export type MockBrand = Brand & { slug: string };
+
+export const mockCategories: MockCategory[] = [
+    { id: 1, name: "Điện thoại", description: "Smartphone các loại", slug: "dien-thoai" },
+    { id: 2, name: "Laptop", description: "Laptop văn phòng & gaming", slug: "laptop" },
+    { id: 3, name: "Đồng hồ", description: "Đồng hồ thông minh & cổ điển", slug: "dong-ho" },
+    { id: 4, name: "Tai nghe", description: "Tai nghe Bluetooth & có dây", slug: "tai-nghe" },
+    { id: 5, name: "Phụ kiện", description: "Ốp lưng, sạc, cáp, ...", slug: "phu-kien" },
 ];
 
-export const mockBrands: Brand[] = [
-    { id: 1, name: "Samsung" },
-    { id: 2, name: "Apple" },
-    { id: 3, name: "Huawei" },
-    { id: 4, name: "Oppo" },
-    { id: 5, name: "Xiaomi" },
+export const mockBrands: MockBrand[] = [
+    { id: 1, name: "Samsung", slug: "samsung" },
+    { id: 2, name: "Apple", slug: "apple" },
+    { id: 3, name: "Huawei", slug: "huawei" },
+    { id: 4, name: "Oppo", slug: "oppo" },
+    { id: 5, name: "Xiaomi", slug: "xiaomi" },
 ];
 
 interface HeaderProps {
@@ -73,7 +76,7 @@ export function Header({ onToggleSidebar }: HeaderProps) {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+            navigate(`/?q=${encodeURIComponent(searchQuery.trim())}`);
             setMobileMenuOpen(false);
         }
     };
@@ -83,7 +86,7 @@ export function Header({ onToggleSidebar }: HeaderProps) {
     const cartCount = 3; // mock
 
     return (
-        <header className="sticky top-0 z-40 shadow-sm bg-brand-orange/20">
+        <header className="sticky top-0 z-40 shadow-sm bg-brand-orange">
             {/* ── Main bar ──────────────────────────────────────────── */}
             <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 lg:h-16">
                 {/* Mobile: hamburger (toggles sidebar) */}
@@ -139,7 +142,7 @@ export function Header({ onToggleSidebar }: HeaderProps) {
                                         {mockCategories.map((c) => (
                                             <Link
                                                 key={c.id}
-                                                to={`/products?category=${c.id}`}
+                                                to={`/${c.slug}`}
                                                 onClick={() => setCategoryDropdownOpen(false)}
                                                 className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm text-slate-700 hover:bg-brand-orange/10 hover:text-brand-brown transition-colors"
                                             >
@@ -155,14 +158,12 @@ export function Header({ onToggleSidebar }: HeaderProps) {
                                     </p>
                                     <div className="flex flex-wrap gap-1.5">
                                         {mockBrands.map((b) => (
-                                            <Link
+                                            <span
                                                 key={b.id}
-                                                to={`/products?brand=${b.id}`}
-                                                onClick={() => setCategoryDropdownOpen(false)}
-                                                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 hover:border-brand-orange hover:text-brand-brown transition-colors"
+                                                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 hover:border-brand-orange hover:text-brand-brown transition-colors cursor-default"
                                             >
                                                 {b.name}
-                                            </Link>
+                                            </span>
                                         ))}
                                     </div>
                                 </div>
