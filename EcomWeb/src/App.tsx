@@ -1,4 +1,3 @@
-// src/App.tsx
 import { Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import HomePage from "./pages/HomePage";
@@ -18,17 +17,13 @@ function App() {
       dispatch(fetchMeThunk());
     }
   }, [dispatch]);
+
   return (
     <Routes>
-      {/* Public routes */}
-      <Route
-        path="/login"
-        element={
-          <MainLayout>
-            <LoginPage />
-          </MainLayout>
-        }
-      />
+      {/* Auth (no layout) */}
+      <Route path="/login" element={<LoginPage />} />
+
+      {/* Public pages with sidebar */}
       <Route
         path="/"
         element={
@@ -37,31 +32,46 @@ function App() {
           </MainLayout>
         }
       />
-      {/* Admin area: cần login + role Admin */}
-      <Route element={<ProtectedRoute allowRoles={["Admin"]} />}>
+      <Route
+        path="/products"
+        element={
+          <MainLayout withSidebar>
+            <HomePage />
+          </MainLayout>
+        }
+      />
+
+      {/* Protected: Customer */}
+      <Route element={<ProtectedRoute allowRoles={["Customer", "Admin"]} />}>
         <Route
-          path="/admin/*"
+          path="/profile"
           element={
-            <MainLayout withSidebar>
-              {/* <AdminRoutes /> hoặc tạm thời HomePage */}
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <MainLayout>
               <HomePage />
             </MainLayout>
           }
         />
       </Route>
 
-      {/* Có thể thêm ProtectedRoute cho customer-only pages nếu cần: */}
-      {/* <Route element={<ProtectedRoute allowRoles={["Customer"]} />}>
+      {/* Protected: Admin */}
+      <Route element={<ProtectedRoute allowRoles={["Admin"]} />}>
         <Route
-          path="/account"
+          path="/admin/*"
           element={
-            <MainLayout>
-              <AccountPage />
+            <MainLayout withSidebar>
+              <HomePage />
             </MainLayout>
           }
         />
-      </Route> */}
-
+      </Route>
     </Routes>
   );
 }
