@@ -3,13 +3,15 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { User } from './User';
-export type EmailVerificationToken = {
+import type { UserTokenType } from './UserTokenType';
+export type UserToken = {
     isDeleted?: boolean;
     readonly id?: string;
     readonly userId?: string;
     readonly token?: string | null;
     readonly expiresAt?: string;
     readonly isUsed?: boolean;
+    type?: UserTokenType;
     user?: User;
 };
 

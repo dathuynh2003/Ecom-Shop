@@ -4,6 +4,7 @@ import { clearTokens, setTokens } from '../features/auth/slices/authSlice';
 import type { TokenResponseApiResponse } from './client/models/TokenResponseApiResponse';
 import type { TokenRequest } from './client/models/TokenRequest';
 import { AuthenticationsService } from './client/services/AuthenticationsService';
+import { getUserIdFromAccessToken } from '../utils/auth';
 
 let isRefreshing = false;
 let failedQueue: {
@@ -49,7 +50,11 @@ axiosInstance.interceptors.response.use(
       store.dispatch(clearTokens());
       return Promise.reject(error);
     }
-
+    const userId = getUserIdFromAccessToken();
+    if (!userId) {
+      store.dispatch(clearTokens());
+      return Promise.reject(error);
+    }
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({
@@ -65,6 +70,7 @@ axiosInstance.interceptors.response.use(
 
     try {
       const tokenRequest: TokenRequest = {
+        userId,
         refreshToken,
       };
 

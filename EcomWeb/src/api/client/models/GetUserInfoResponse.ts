@@ -12,6 +12,6 @@ export type GetUserInfoResponse = {
     avatarUrl?: string | null;
     roleName?: string | null;
     addresses?: Array<Address> | null;
-    cartID?: string;
+    cartId?: string;
 };
 

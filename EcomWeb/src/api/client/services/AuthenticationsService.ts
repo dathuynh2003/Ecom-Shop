@@ -5,6 +5,7 @@
 import type { LoginRequest } from '../models/LoginRequest';
 import type { RegisterRequest } from '../models/RegisterRequest';
 import type { RegisterResponseApiResponse } from '../models/RegisterResponseApiResponse';
+import type { ResetPasswordRequest } from '../models/ResetPasswordRequest';
 import type { StringApiResponse } from '../models/StringApiResponse';
 import type { TokenRequest } from '../models/TokenRequest';
 import type { TokenResponseApiResponse } from '../models/TokenResponseApiResponse';
@@ -109,6 +110,43 @@ export class AuthenticationsService {
             query: {
                 'email': email,
             },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * @param email
+     * @returns StringApiResponse OK
+     * @throws ApiError
+     */
+    public static postApiV1AuthenticationsRequestPasswordReset(
+        email?: string,
+    ): CancelablePromise<StringApiResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/Authentications/request-password-reset',
+            query: {
+                'email': email,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns StringApiResponse OK
+     * @throws ApiError
+     */
+    public static postApiV1AuthenticationsResetPassword(
+        requestBody?: ResetPasswordRequest,
+    ): CancelablePromise<StringApiResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/Authentications/reset-password',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Bad Request`,
             },
