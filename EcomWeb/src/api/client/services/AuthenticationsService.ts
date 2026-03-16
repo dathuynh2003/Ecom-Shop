@@ -3,6 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { LoginRequest } from '../models/LoginRequest';
+import type { RegisterRequest } from '../models/RegisterRequest';
+import type { RegisterResponseApiResponse } from '../models/RegisterResponseApiResponse';
+import type { StringApiResponse } from '../models/StringApiResponse';
 import type { TokenRequest } from '../models/TokenRequest';
 import type { TokenResponseApiResponse } from '../models/TokenResponseApiResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -53,6 +56,62 @@ export class AuthenticationsService {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/Authentications/logout',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns RegisterResponseApiResponse OK
+     * @throws ApiError
+     */
+    public static postApiV1AuthenticationsRegister(
+        requestBody?: RegisterRequest,
+    ): CancelablePromise<RegisterResponseApiResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/Authentications/register',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * @param token
+     * @returns StringApiResponse OK
+     * @throws ApiError
+     */
+    public static getApiV1AuthenticationsVerifyEmail(
+        token?: string,
+    ): CancelablePromise<StringApiResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/Authentications/verify-email',
+            query: {
+                'token': token,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * @param email
+     * @returns StringApiResponse OK
+     * @throws ApiError
+     */
+    public static postApiV1AuthenticationsResendVerificationEmail(
+        email?: string,
+    ): CancelablePromise<StringApiResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/Authentications/resend-verification-email',
+            query: {
+                'email': email,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
         });
     }
 }

@@ -78,12 +78,6 @@ export function LoginForm() {
                     >
                         Mật khẩu
                     </label>
-                    <Link
-                        to="/forgot-password"
-                        className="text-xs font-medium text-brand-orange hover:text-brand-brown transition-colors"
-                    >
-                        Quên mật khẩu?
-                    </Link>
                 </div>
                 <div className="relative">
                     <input
@@ -107,6 +101,18 @@ export function LoginForm() {
                             <Eye className="h-4 w-4" />
                         )}
                     </button>
+                </div>
+                <div className="flex items-center justify-between my-2">
+                    <div
+                        className="block text-sm font-medium text-slate-700"
+                    >
+                    </div>
+                    <Link
+                        to="/forgot-password"
+                        className="text-xs font-medium text-brand-orange hover:text-brand-brown transition-colors"
+                    >
+                        Quên mật khẩu?
+                    </Link>
                 </div>
                 {errors.password && (
                     <p className="mt-1 text-xs text-red-500">

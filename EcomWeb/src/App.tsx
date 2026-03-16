@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/layout/MainLayout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import EmailVerificationPage from "./pages/EmailVerificationPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect } from "react";
@@ -23,6 +25,8 @@ function App() {
     <Routes>
       {/* Auth (no layout) */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/verify-email" element={<EmailVerificationPage />} />
 
       {/* Public pages with sidebar */}
       <Route

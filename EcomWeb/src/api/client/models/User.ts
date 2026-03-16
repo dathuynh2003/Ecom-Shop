@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { Address } from './Address';
 import type { Cart } from './Cart';
+import type { EmailVerificationToken } from './EmailVerificationToken';
 import type { UserRole } from './UserRole';
 export type User = {
     isDeleted?: boolean;
@@ -18,7 +19,8 @@ export type User = {
     readonly avatarUrl?: string | null;
     role?: UserRole;
     readonly addresses?: Array<Address> | null;
-    readonly cartID?: string;
+    cartID?: string;
     cart?: Cart;
+    readonly emailVerificationTokens?: Array<EmailVerificationToken> | null;
 };
 

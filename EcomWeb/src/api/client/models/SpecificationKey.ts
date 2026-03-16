@@ -3,14 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CategorySpecificationKey } from './CategorySpecificationKey';
-import type { Product } from './Product';
-export type Category = {
+import type { ProductSpecificationKey } from './ProductSpecificationKey';
+export type SpecificationKey = {
     isDeleted?: boolean;
     readonly id?: number;
     readonly name?: string | null;
-    readonly description?: string | null;
-    readonly slug?: string | null;
-    readonly products?: Array<Product> | null;
+    readonly unit?: string | null;
     readonly categorySpecificationKeys?: Array<CategorySpecificationKey> | null;
+    readonly productSpecificationKeys?: Array<ProductSpecificationKey> | null;
 };
 

@@ -8,6 +8,7 @@ export type Brand = {
     readonly id?: number;
     readonly name?: string | null;
     readonly logoUrl?: string | null;
+    readonly slug?: string | null;
     readonly products?: Array<Product> | null;
 };
 
