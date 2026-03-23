@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
 import type { Product } from "../api/client";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { fetchAllCategoriesThunk } from "../features/category/thunks";
 
 const mockProducts: (Product & { categoryName: string; brandName: string; categorySlug: string; brandSlug: string; slug: string; primaryImage: string })[] = [
     {
@@ -110,6 +113,15 @@ function formatCurrency(n: number) {
 }
 
 export default function HomePage() {
+    const dispatch = useAppDispatch();
+    const { hasLoadedAll, isLoading } = useAppSelector((state) => state.category);
+
+    useEffect(() => {
+        if (!hasLoadedAll && !isLoading) {
+            void dispatch(fetchAllCategoriesThunk());
+        }
+    }, [dispatch, hasLoadedAll, isLoading]);
+
     return (
         <div>
             <section className="mb-6">

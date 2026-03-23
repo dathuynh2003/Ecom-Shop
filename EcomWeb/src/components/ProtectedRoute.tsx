@@ -14,10 +14,21 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
     const { isAuthenticated, user } = useAppSelector((s) => s.auth);
     const location = useLocation();
+    const hasStoredTokens = !!localStorage.getItem("access_token") && !!localStorage.getItem("refresh_token");
 
     // Guest route (requireAuth = false): luôn cho vào, không check gì
     if (!requireAuth) {
         return <Outlet />;
+    }
+
+    if (hasStoredTokens && !user) {
+        return (
+            <div className="flex min-h-[40vh] items-center justify-center">
+                <div className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
+                    Đang kiểm tra phiên đăng nhập...
+                </div>
+            </div>
+        );
     }
 
     // Cần login mà chưa login

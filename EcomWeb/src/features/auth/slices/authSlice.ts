@@ -44,6 +44,8 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
         });
         builder.addCase(fetchMeThunk.rejected, (state) => {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
             state.user = null;
             state.isAuthenticated = false;
         });

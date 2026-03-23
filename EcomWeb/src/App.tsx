@@ -7,6 +7,8 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import ProfilePage from "./pages/ProfilePage";
+import AdminPage from "./pages/AdminPage";
 import { useAppDispatch } from "./app/hooks";
 import { useEffect } from "react";
 import { fetchMeThunk } from "./features/auth/thunks";
@@ -72,7 +74,7 @@ function App() {
           path="/profile"
           element={
             <MainLayout>
-              <HomePage />
+              <ProfilePage />
             </MainLayout>
           }
         />
@@ -91,8 +93,8 @@ function App() {
         <Route
           path="/admin/*"
           element={
-            <MainLayout withSidebar>
-              <HomePage />
+            <MainLayout>
+              <AdminPage />
             </MainLayout>
           }
         />
